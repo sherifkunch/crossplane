@@ -16,4 +16,31 @@
 
 **Terraform vs. Crossplane**: Terraform represents infrastructure using declarative configuration, but it can become challenging to manage collaboration and scalability. Terraform relies on a monolithic state file and has blocking processes during configuration application. In contrast, Crossplane promotes loose coupling and eventual consistency, allowing for better collaboration. Each infrastructure piece in Crossplane is an independent API endpoint supporting CRUD operations.
 
-In summary, Crossplane, combined with GitOps principles, offers advantages such as scalable collaboration and a unified API for managing infrastructure. While Terraform has its strengths, Crossplane provides a more flexible and efficient approach to infrastructure management, addressing challenges related to scalability and collaboration in large environments.
+**In Summary**: Crossplane, combined with GitOps principles, offers advantages such as scalable collaboration and a unified API for managing infrastructure. While Terraform has its strengths, Crossplane provides a more flexible and efficient approach to infrastructure management, addressing challenges related to scalability and collaboration in large environments.
+
+## Note
+In Crossplane, every piece of infrastructure is an API endpoint that supports create, read, update, and delete operations.
+
+Note : Good thing to note here is you can restrict certain actions to the developer and allow him to create or claim the resources from the Cluster itself using Role Based Access Control(RBAC). This is an added advantage.
+
+## What are Crossplane Terms/Objects ?
+
+XRD — Composite Resource Definition :
+
+This is a Cluster Scoped CRD. This follows openapiV3 schema and to be used to define the inputs that is to be read by composition.
+
+## What is composition then? 
+A Composition lets Crossplane know what to do when someone creates a Composite Resource. This is where integration logic and credentials injection logic is defined.
+
+
+## XRC (Claim) — Composite Resource Claim :
+
+Crossplane uses Composite Resource Claims (or just claims, for short) to allow application operators to provision and manage XR.
+
+## Terraform Analogy of Crossplane Terms:
+
+XRD as Terraform variable blocks of a Terraform module,
+
+Composition is the rest of the module’s HCL code(main.tf) that describes how to use those variables to create a bunch of resources.
+
+XRC or claim is a little like a tfvars or locals.tf file providing inputs to the module.
