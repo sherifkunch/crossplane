@@ -1,0 +1,47 @@
+Crossplane, GitOps and Kubernetes notes
+
+Good candidate to be an ultimate api is K8s. For instance, you can request to schedule pods, you can request to create this or that kind of infra. It will be amazing to have one API to rule  all the API requests and to have the capability to do accomplish this task. If there si an API which is getting closer to that goal that would be Kubernetes API. 
+
+I want tool, that could provision various types of infrastructure, from various sources, to track if any drifts occur, automatic synch between desired state and actual state. 
+
+None of the existing tools gives that, chef and puppet have this kind of automatization but they are dead. 
+
+Terraform cannot automatically detects drifts.
+
+Ansible is not used for such kind of cases. It is more concentrated on RedHat products. These tools are listed since they own big share of the market in this area.
+
+Crossplane is a potential candidate of the next generation of tools to manage infrastructure. 
+Crossplane is based on k8s api. 
+
+Can be installed in k8s cluster via helm. 
+
+Most important features of crossplane. 
+
+Scneario: 
+Deploy k8s cluster with one node. The initial idea was to crete it with at least 3 nodes spread accross multiple availability zones but actually it was deployed with only one node in one zone. 
+
+Going from the UI, and changing manually things from there - adding 2 more additional nodes located in differenet avaialability zones. When save the changes and the cloud will add 2 more additional nodes. 
+
+While observing the changes with: 
+- watch kubectl get nodes
+The 2 nodes appeared for a couple of seconds and then were automatically removed. 
+
+But here Crossplane, comes in action. We were able to add 2 more nodes, but crossplane detects that inside its maifiests files which we initially declared, there is a state which is not the same as the actual state. And since it is a single source of trouth,it automatically removes the 2 newly created nodes. Crossplane detecs a drift, between the actual and desired state. The only way to change the actual state is to change the desired state defined in the kubernetes manifests. 
+
+The way we should do it is to change the manifest file. We can do it by chaging the manifest, where we could add 2 more locations of the nodes - us-east1-c, us-east-1b. 
+
+Now we can either reapply the changes using kubectl apply. 
+
+But here is another handy tools which we can use, and it is ArgoCD. Instead of manually accessing the cluster and applying the changes with kubectl, we can have ArgoCD setup which can do these things for us. So in practice, ArgoCD will let Crossplane do the rest of the work.
+
+When the new manifest is pushed to the github directory, ArgoCD will detect the changes and execute them automatically (this is GitOps principle).
+
+Bad sides of Crossplane: 
+documentation is not that good 
+not that big community, since it is new 
+the amount of providers compared with terraform, not that much compared with terraform 
+initial setup (needs kubernetes cluster) 
+Big Advantages:
+one api to manage everything 
+the idea is similar with the native kubernetes objects. Example: we say in manifets files, we want to have a certain amout of pods, with certain characteristics, labels, volumes, metadata, etc. With Crossplane and infrastructure is similar. We want to have infra, having a magical tool which will be monitoring the infra written in manifests files ( this will be our desired state ), and changes to the infra should be done only if the infra manifests themselves are changes, not in other scenarious. 
+kubernetes native, designed to run inside  k8s, but capable of managing things outside of kubernetes 	
