@@ -13,12 +13,12 @@ spec:
       namespace: crossplane-system
       name: aws-secret-creds
       key: creds
-  # - filename: .git-credentials
-  #   source: Secret
-  #   secretRef:
-  #     namespace: crossplane-system
-  #     name: git-credentials
-  #     key: creds   
+  - filename: .git-credentials
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: git-credentials
+      key: creds   
   configuration: |
       provider "aws" {
         shared_credentials_file = "aws-creds.ini"

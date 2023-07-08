@@ -1,0 +1,24 @@
+
+# Terraform
+---
+apiVersion: tf.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: tfcon
+spec:
+  credentials:
+  - filename: .aws-creds.ini
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: git-credentials
+      key: creds   
+  configuration: |
+      provider "aws" {
+        shared_credentials_file = "aws-creds.ini"
+        region = "eu-central-1"
+      }
+
+# for some reason this is not working, noot really sure :  
+# Warning  CannotConnectToProvider  1s (x3 over 7s)  managed/workspace.tf.crossplane.io  
+# cannot initialize Terraform configuration: error refreshing state: accessdenied: access denied
