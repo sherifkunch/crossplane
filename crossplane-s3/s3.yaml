@@ -1,6 +1,6 @@
 ### s3 ###
 
-apiVersion: s3.aws.crossplane.io
+apiVersion: s3.aws.crossplane.io/v1beta1
 kind: Bucket
 metadata:
   name: paas-s3-cp-sherifkunch-unique-bucket   ## bucket name must be unique 
