@@ -1,0 +1,18 @@
+apiVersion: opm.paas.org/v1alpha1
+kind: OpmS3Bucket
+metadata:
+  name: opms3bucket
+  namespace: opm-pi
+
+spec:
+  parameters:
+    LocationConstraint: "eu-central-1"
+    acl: "private"
+    VersioningConfiguration: "Enabled"
+    Bucket: "opms3bucketsherif"
+    Namespace: "opm-pi"
+    Forcedestroy: "false"
+  compositionSelector:
+    matchLabels:
+      provider: terraform-provider
+      team: opm
